@@ -22,7 +22,9 @@ Voeg deze regel toe:
 
     + <script src="https://cdn.jsdelivr.net/npm/turbolinks@5.2.0/dist/turbolinks.js" integrity="sha256-iM4Yzi/zLj/IshPWMC1IluRxTtRjMqjPGd97TZ9yYpU=" crossorigin="anonymous"></script>
 
-([Turbolinks is ook een package in NPM](https://www.npmjs.com/package/turbolinks), dus je kunt ook je favoriete workflow gebruiken met `yarn` of `npm`.)
+De eerste pagina zal 9.4kB meer wegen.
+
+[Turbolinks is ook een package in NPM](https://www.npmjs.com/package/turbolinks), dus je kunt ook je favoriete workflow gebruiken met `yarn` of `npm`.
 
 Het is dan:
 
