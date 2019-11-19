@@ -1,0 +1,50 @@
+# Een andere manier
+
+De kracht van het internet is dat de technieken relatief eenvoudig te gebruiken zijn. 
+
+Gedreven door het idee dat er binnen enkele seconden iets op het scherm moet staan, lijkt het echter tegenwoordig noodzakelijk om een Single Page App op te tuigen die begint vanuit het neerzetten van placeholders, waarin vervolgens content wordt geladen vanuit GraphQL en REST API’s.
+
+Libraries zoals React & Vue worden verkocht (met hun native / NativeScript varianten) aan het management als dé stap vooruit. Met handige boilerplates geïnspireerd op Material design worden snel ‘apps’ uit de grond gestampt. Weinig ontwikkelaars weten nog precies wat ze doen, met als prototypische voorbeeld “deze-div-is-een-button” tot gevolg. Of de site werkt zonder javascript is een afterthought, misschien omdat iemand zich druk maakt om zoekmachines die geen JavaScript begrijpen?
+
+Het lijkt wel alsof JavaScript noodzakelijk is voor een optimale UX (voor animatie-liefhebbende, goedziende 40-minners dat is).
+
+Maar kan waargenomen snelheid geen “progressive enhancement” zijn? Als iets zonder JavaScript kan werken, moet het toch ook gewoon zonder kunnen werken. Maar pure HTML en CSS zo snel laten reageren (als het eenmaal geladen is) als een moderne “Single-Page-App” / Webpack-compilatie is niet altijd gemakkelijk, ook al drijven we mee op de JAMstack golf en hosten we de voorgebakken pagina’s dicht bij de eindgebruiker. We zitten toch van pagina naar pagina te navigeren. Hoe los je dat dan op? 
+
+De eigenwijze ontwikkelaars achter Ruby on Rails hebben enige jaren geleden [Turbolinks](https://github.com/turbolinks/turbolinks) in het leven geroepen en onlangs Stimulus. Beide libraries zijn pragmatische keuzes en in de basis eenvoudige verbeteringen, die geen gigantische koerswisseling betekenen ten opzichte van “traditioneel” ontwikkelen op basis van HTML en CSS. 
+
+## Turbolinks
+
+Turbolinks is conceptueel voor een webontwikkelaar wellicht het meest eenvoudige te begrijpen. Wat als je, wanneer je binnen dezelfde site navigeert, in plaats van de browser te vragen de hele pagina te verversen, je de te presenteren HTML pagina pakt, en slechts de DOM nodes in de body vervangt (+ o.a. de title). De CSS en JavaScript hoeft dan niet meer opnieuw gedownload en geanalyseerd te worden. Turbolinks vangt wanneer JavaScript aan staat eenvoudigweg het openen van links af en doet precies dat (en nog een beetje meer, zoals het cachen van die pagina’s). Geen JSON-API’s, geen veranderingen op de server nodig. Een slimmigheid aan de voorkant die ‘traditionele’ websites sneller laat werken.
+
+### Implementatie
+
+Voeg deze regel toe:
+
+    + <script src="https://cdn.jsdelivr.net/npm/turbolinks@5.2.0/dist/turbolinks.js" integrity="sha256-iM4Yzi/zLj/IshPWMC1IluRxTtRjMqjPGd97TZ9yYpU=" crossorigin="anonymous"></script>
+
+([Turbolinks is ook een package in NPM](https://www.npmjs.com/package/turbolinks), dus je kunt ook je favoriete workflow gebruiken met `yarn` of `npm`.)
+
+Het is dan:
+
+    $ npm install --save turbolinks
+    
+en om het te starten:
+
+    var Turbolinks = require("turbolinks")
+    Turbolinks.start()
+    
+Dat is het.
+
+### Demo
+
+
+### Nadelen
+
+De twee belangrijkste nadelen zijn het ontbreken van een document.load en het feit dat de hele DOM wordt vervangen.
+
+Document.load is vooral voor Analytics-systemen en libraries zoals jQuery een aandachtspunt; alle functies die gebonden zijn aan events die standaard aangeroepen worden bij het laden van een pagina moeten mogelijk opnieuw worden gebonden aan events die Turbolinks stuurt bij het navigeren naar een andere pagina.
+
+Een ander punt om in de gaten te houden is dat de volledige DOM relatief ‘dom’ wordt vervangen. Mooie overgangstransities zijn wat lastiger te doen, al zijn er workarounds die die eenvoudige werkwijze vervangen door een implementatie die de inhoud van de nieuwe en de huidige pagina-inhoud vergelijkt en netjes bijsnijdt waar nodig.
+
+## Stimulus
+
