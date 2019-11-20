@@ -7,7 +7,36 @@
     <script src="https://cdn.jsdelivr.net/npm/turbolinks@5.2.0/dist/turbolinks.js" integrity="sha256-iM4Yzi/zLj/IshPWMC1IluRxTtRjMqjPGd97TZ9yYpU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <!--/head-->
+    <script src="https://cdn.jsdelivr.net/npm/stimulus@1.1.1/dist/stimulus.umd.js" integrity="sha256-mUuPeK7DRsoSOwJJcvbcMgWsqAVPJs7X8K/h7NxXQj4=" crossorigin="anonymous"></script>
+    <script>
+      (() => {
+        const application = Stimulus.Application.start()
 
+        application.register("hello", class extends Stimulus.Controller {
+          static get targets() {
+            return [ "name", "nameEcho1", "nameEcho2", "nameEcho3" ]
+          }
+
+          echo() {
+            const element = this.nameTarget
+            const echo1Element = this.nameEcho1Target
+            const echo2Element = this.nameEcho2Target
+            const echo3Element = this.nameEcho3Target
+            const name = element.value
+            const echo1Name = name.substr([name.length-4,0].sort()[1],name.length+1)
+            const echo2Name = name.substr([name.length-3,0].sort()[1],name.length+1)
+            const echo3Name = name.substr([name.length-2,0].sort()[1],name.length+1)
+            echo1Element.innerText = echo1Name;
+            setTimeout(()=>{
+              echo2Element.innerText = echo2Name;
+            },200)
+            setTimeout(()=>{
+              echo3Element.innerText = echo3Name;
+            },400)
+          }
+        })
+      })()
+    </script>
 
     <title>Turbolinks en *Stimulus* van de Rails</title>
   </head>
@@ -29,3 +58,9 @@
 
     <h1>Stimulus</h1>
 
+    <h2>Een eenvoudige demo</h2>
+    <p>Onderstaande is een eenvoudige demo.</p>
+  <div data-controller="hello">
+    <input data-target="hello.name" type="text" data-action="keyup->hello#echo">
+    <dl><dt>Echo</dt><dd><span data-target="hello.nameEcho1"></span><span data-target="hello.nameEcho2"></span><span data-target="hello.nameEcho3"></span></dd></dl>
+  </div>
