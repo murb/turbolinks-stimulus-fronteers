@@ -1,24 +1,24 @@
 # Een andere manier
 
-De kracht van het internet is dat de technieken relatief eenvoudig te gebruiken zijn. 
+De kracht van het internet is dat de technieken relatief eenvoudig te gebruiken zijn.
 
-Gedreven door het idee dat er binnen enkele seconden iets op het scherm moet staan lijkt het tegenwoordig noodzakelijk om een Single Page App op te tuigen die begint vanuit het neerzetten van placeholders, waarin vervolgens content wordt geladen vanuit GraphQL en REST API’s. En vergelijk dat dan toch eens met de eenvoud van weleer, waarbij je HTML en CSS kon uploaden met een FTP programma… 
+Gedreven door het idee dat er binnen enkele seconden iets op het scherm moet staan lijkt het tegenwoordig noodzakelijk om een Single Page App op te tuigen die begint vanuit het neerzetten van placeholders, waarin vervolgens content wordt geladen vanuit GraphQL en REST API’s. En vergelijk dat dan toch eens met de eenvoud van weleer, waarbij je HTML en CSS kon uploaden met een FTP programma…
 
 Weinig ontwikkelaars weten nog precies wat ze doen, met als prototypische voorbeeld “deze-div-is-een-button” tot gevolg. Of de site werkt zonder javascript is een iets wat naderhand bedacht wordt, misschien omdat iemand zich druk maakt om zoekmachines die geen JavaScript begrijpen?
 
 Het lijkt wel alsof JavaScript noodzakelijk is voor een optimale UX (voor animatie-liefhebbende, goedziende 40-minners dat is).
 
-Maar kan waargenomen snelheid niet ook als “progressive enhancement” aangeboden worden? Als iets zonder JavaScript kan werken, moet het toch ook gewoon zonder kunnen werken. Maar pure HTML en CSS zo snel laten reageren (als het eenmaal geladen is) als een moderne “Single-Page-App” / Webpack-compilatie is niet altijd even gemakkelijk. Je zit dan toch snel van pagina naar pagina te navigeren, die soms sneller, soms minder snel kan reageren. Hoe los je dat dan op? 
+Maar kan waargenomen snelheid niet ook als “progressive enhancement” aangeboden worden? Als iets zonder JavaScript kan werken, moet het toch ook gewoon zonder kunnen werken. Maar pure HTML en CSS zo snel laten reageren (als het eenmaal geladen is) als een moderne “Single-Page-App” / Webpack-compilatie is niet altijd even gemakkelijk. Je zit dan toch snel van pagina naar pagina te navigeren, die soms sneller, soms minder snel kan reageren. Hoe los je dat dan op?
 
-De twee technieken die ik in deze blog introduceer komen uit de Ruby on Rails wereld voort, een “backend framework”, maar deze bibliotheken zijn onafhankelijk van dit framework te gebruiken. 
+De twee technieken die ik in deze blog introduceer komen uit de Ruby on Rails wereld voort, een “backend framework”, maar deze bibliotheken zijn onafhankelijk van dit framework te gebruiken.
 
-Een belangrijke pijler voor de ontwikkelaars achter Ruby on Rails, en dus ook deze projecten is “convention over configuration”; liever dat iets direct goed werkt, dan dat je dagen aan het sleutelen bent om alleen al de basis goed werkend te krijgen. Het is dan ook sterk geopinieerd. Werk ermee zoals het bedoeld is en je kunt je concenteren op de inhoud in plaats van bijzaken. Omdat het idee van progressive enhancement redelijk centraal in het gedachtengoed zit kan ik er goed mee leven. 
+Een belangrijke pijler voor de ontwikkelaars achter Ruby on Rails, en dus ook deze projecten is “convention over configuration”; liever dat iets direct goed werkt, dan dat je dagen aan het sleutelen bent om alleen al de basis goed werkend te krijgen. Het is dan ook sterk geopinieerd. Werk ermee zoals het bedoeld is en je kunt je concenteren op de inhoud in plaats van bijzaken. Omdat het idee van progressive enhancement redelijk centraal in het gedachtengoed zit kan ik er goed mee leven.
 
-De technieken die ik behandel zijn [Turbolinks](https://github.com/turbolinks/turbolinks) (voor het sneller laten laden van volledige pagina’s), en van meer recentere datum, Stimulus (voor het verrijken van pagina’s). Beiden zijn pragmatische keuzes en relatief kleine verbeteringen, die geen gigantische koerswisseling betekenen ten opzichte van “traditioneel” ontwikkelen op basis van HTML en CSS. 
+De technieken die ik behandel zijn [Turbolinks](https://github.com/turbolinks/turbolinks) (voor het sneller laten laden van volledige pagina’s), en van meer recentere datum, Stimulus (voor het verrijken van pagina’s). Beiden zijn pragmatische keuzes en relatief kleine verbeteringen, die geen gigantische koerswisseling betekenen ten opzichte van “traditioneel” ontwikkelen op basis van HTML en CSS.
 
 ## Turbolinks
 
-Turbolinks is conceptueel voor een webontwikkelaar wellicht het meest eenvoudige te begrijpen van de twee technieken. Wat als je, wanneer je binnen dezelfde site navigeert, in plaats van de browser te vragen de hele pagina te verversen, je de te presenteren HTML pagina pakt, en slechts de DOM nodes in de body vervangt (+ o.a. de title). Een idee geinspireerd op [pjax](https://github.com/defunkt/jquery-pjax), maar die was afhankelijk van jQuery. De CSS en JavaScript hoeft dan niet meer opnieuw gedownload en geanalyseerd te worden en je kunt bijvoorbeeld JavaScript aan `document` binden die langer leeft dan dat enkele pagina bezoek. Turbolinks vangt wanneer JavaScript aan staat bijna onzichtbaar het openen van links af, en toont wanneer mogelijk direct pagina’s uit de cache waardoor er bijna direct resultaat wordt getoond (welke bij een update wordt ververst). Geen JSON-API’s, geen veranderingen op de server nodig. Een slimmigheid aan de voorkant die ‘traditionele’ websites sneller laat werken.
+Turbolinks is conceptueel voor een webontwikkelaar wellicht het meest eenvoudige te begrijpen van de twee technieken. Wat als je, wanneer je binnen dezelfde site navigeert, in plaats van de browser te vragen de hele pagina te verversen, je de te presenteren HTML pagina pakt, en slechts de DOM nodes in de body vervangt (+ o.a. de title). Een idee geinspireerd op [pjax](https://github.com/defunkt/jquery-pjax), maar die was afhankelijk van jQuery. De CSS en JavaScript hoeft dan niet meer opnieuw gedownload en geanalyseerd te worden en je kunt bijvoorbeeld JavaScript aan `document` binden die langer leeft dan dat enkele pagina bezoek. Turbolinks vangt wanneer JavaScript aan staat bijna onzichtbaar het openen van links af, en toont wanneer mogelijk direct pagina’s uit de cache waardoor er bijna direct resultaat wordt getoond (welke bij een update wordt ververst). Geen JSON-API’s, geen veranderingen op de server nodig. Een slimmigheid aan de voorkant die ‘traditionele’ websites sneller laat werken en tussentijds haperen van b.v. externe lettertypen voorkomt.
 
 ### Implementatie
 
@@ -33,12 +33,12 @@ De eerste pagina aanroep zal 9.4kB (m.b.v. gzip) meer wegen.
 Het is dan:
 
     $ npm install --save turbolinks
-    
+
 en om het te starten:
 
     var Turbolinks = require("turbolinks")
     Turbolinks.start()
-    
+
 Dat is het. Er zijn vervolgens wat opties om bijvoorbeeld expliciet aan te geven externe bronnen wél opnieuw moeten worden geladen en wanneer een bijzondere pagina niet geladen dient te worden (zoals op [de turbolinks-demo pagina]((https://murb.github.io/turbolinks-stimulus-fronteers/geen_turbolinks.html)))
 
 ### En “Native”?
@@ -59,7 +59,7 @@ Een ander punt om in de gaten te houden is dat de volledige DOM relatief ‘dom�
 
 ## Stimulus
 
-Turbolinks brengt op zich al meer een ervaring van een Single Page App zonder gelijk alles wat fijn is aan het maken van ‘traditionele’ pagina’s overboord te gooien. Maar het is niet ideaal voor alles. Soms wil je wat interactiviteit toevoegen. 
+Turbolinks brengt op zich al meer een ervaring van een Single Page App zonder gelijk alles wat fijn is aan het maken van ‘traditionele’ pagina’s overboord te gooien. Maar het is niet ideaal voor alles. Soms wil je wat interactiviteit toevoegen.
 
 Er zijn mensen die niet van frameworks houden. Maar wanneer je vaker van project wisselt, dan is de kracht van een framework wel dat ze enig houvast voor andere ontwikkelaars bieden door dat ze goed gedocumenteerd zijn.
 
@@ -67,7 +67,7 @@ Terzijde: Er zijn ook ontwikkelaars die liever dichter bij webstandaarden blijve
 
 Stimulus is vooral een handvat om JavaScript code consistent te laten werken. Een logische ordening. Voor dat Stimulus er was, en nadat ik gestopt was met jQuery, schreef ik al voor kleinere projecten veelal JavaScript die reageerde op data-attributen, maar wanneer er het aantal acties groter wordt is het onderhoud van een goede naamgeving toch wel lastig. (en grotere JavaScript projecten waaraan ik werkte bestonden toch veelal uit de bekendere frameworks die zware maar algemeen bekende structuur oplegden, maar met code dat ook ergens weer wrong omdat het eigenlijk niet de manier is waarop ik het liefst frontend-code zou willen schrijven.
 
-Toen ik Stimulus zag was het voor mij dus al snel een aha-moment, al moest ik nog even wachten voordat ik het concreet kon gaan gebruiken op een nieuw project. In plaats van mijn oude manier, waarbij ik acties koppelde aan DOM-nodes middels data-attributen, waarbij al die acties bestonden in dezelfde scope, maar middels een Controller structuur waarin een omsluitend element aangeeft welke Controller binnen dat element het gedrag bepaald. 
+Toen ik Stimulus zag was het voor mij dus al snel een aha-moment, al moest ik nog even wachten voordat ik het concreet kon gaan gebruiken op een nieuw project. In plaats van mijn oude manier, waarbij ik acties koppelde aan DOM-nodes middels data-attributen, waarbij al die acties bestonden in dezelfde scope, maar middels een Controller structuur waarin een omsluitend element aangeeft welke Controller binnen dat element het gedrag bepaald.
 
 ### Implementatie
 
@@ -96,9 +96,9 @@ En de HTML die er bij hoort kan iets zijn als:
 
     <form data-validator="validator">
         <label>Naam
-            <input 
-                name="name" 
-                data-target="name" 
+            <input
+                name="name"
+                data-target="name"
                 data-action="change->method"
             />
         </label>
@@ -129,5 +129,5 @@ Besef ook dat veel van de grotere frameworks van grote organisaties komen. Grote
 Je kunt de demo pagina’s clonen met git:
 
     git clone https://github.com/murb/turbolinks-stimulus-fronteers.git
-    
+
 Sorry, geen hot reloading, maar met b.v. `python -m SimpleHTTPServer 8000` (of `ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => 4000, :DocumentRoot => Dir.pwd).start'`) kun je er snel mee experimenteren.
